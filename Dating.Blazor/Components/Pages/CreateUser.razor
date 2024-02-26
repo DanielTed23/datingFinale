@@ -22,9 +22,19 @@
     <button type="submit" class="btn btn-primary">Opret</button>
 </EditForm>
 
+@if (!string.IsNullOrWhiteSpace(userCreationMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @userCreationMessage
+    </div>
+}
+
 @code {
+    private string userCreationMessage;
+
     private void CreateAccount()
     {
         Icrud.Create(account);
+        userCreationMessage = "Brugeren er oprettet";
     }
 }

@@ -1,7 +1,46 @@
 ﻿@page "/"
+@inject DatingContext DbContext
+@using Dating.Data.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Login</PageTitle>
 
-<h1>Hello, world!</h1>
+<EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
+    <div class="form-group">
+        <label for="userName">Brugernavn:</label>
+        <InputText id="userName" @bind-Value="loginModel.UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="password">Adgangskode:</label>
+        <InputText id="password" @bind-Value="loginModel.Password" type="password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Log ind</button>
+</EditForm>
 
-Welcome to your new app.
+@if(loginFailed)
+{
+    <div class="alert alert-danger" role="alert">
+        Login fejlede. Tjek brugernavn og adgangskode.
+    </div>
+}
+@code {
+    private Data.Models.Account loginModel = new Data.Models.Account(); // Antager at Account er din modelklasse
+    private bool loginFailed = false;
+
+    private async Task HandleLogin()
+    {
+        var user = await DbContext.Accounts
+            .FirstOrDefaultAsync(u => u.UserName == loginModel.UserName && u.Password == loginModel.Password); // Husk at hashe og sammenligne adgangskoder sikkert i en rigtig applikation
+
+        if (user != null)
+        {
+            // Håndter succesfuldt login her
+            NavigationManager.NavigateTo("/hjem"); // Omdiriger til hjemmesiden eller en anden side efter login
+        }
+        else
+        {
+            loginFailed = true;
+        }
+    }
+}
