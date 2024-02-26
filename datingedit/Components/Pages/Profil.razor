@@ -1,0 +1,53 @@
+﻿@page "/Profil"
+@page "/Profil/{UserProfileId}"
+@using datingedit.Models
+@using Microsoft.Data.SqlClient
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@using Microsoft.AspNetCore.Components.Authorization
+@inject UserRepository userRepo
+
+<h3>Profilside</h3>
+
+@if (userProfile != null)
+{
+    <div class="mt-4">
+        <p>Velkommen: @userProfile.Navn</p>
+        <p>Postnummer: @userProfile.Postnummer</p>
+        <p>Fødselsdato: @userProfile.Fødselsdag</p>
+        <p>Køn: @userProfile.Køn</p>
+        <button class="btn btn-danger" @onclick="DeleteUser">Slet Bruger</button>
+    </div>
+}
+else
+{
+    <p>Profil kunne ikke indlæses.</p>
+}
+
+
+@code {
+    [Parameter]
+    public string UserProfileId { get; set; }
+
+    public UserProfile userProfile { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUserProfile(UserProfileId);
+    }
+
+    private async Task LoadUserProfile(string userProfileId)
+    {
+        // Replace this with your actual data access code
+        userProfile = userRepo.GetUserProfileById(userProfileId);
+    } 
+
+    public void DeleteUser()
+    {
+         
+    }
+
+}
+
+
+    

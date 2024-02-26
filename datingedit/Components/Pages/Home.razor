@@ -1,0 +1,74 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using datingedit
+@using datingedit.Models
+@inject NavigationManager NavigationManager
+@inject UserRepository userRepo
+@using System
+@inject UserProfile userprofile
+
+<!-- Navbar -->
+<div class="mt-3">
+    <h4>Velkommen til Hot or Not</h4>
+    <p>Tryk her for at oprette bruger</p>
+    <a href="/opret-bruger" class="btn btn-primary">Opret Bruger</a>
+</div>
+
+<div class="mt-4"></div> <!-- Mellemrum -->
+<!-- Log Ind formular -->
+<div class="mt-4">
+    <h4>Log Ind</h4>
+    <EditForm Model="userProfile" OnValidSubmit="@LogInd">
+        <div class="form-group">
+            <label for="Navn">Navn:</label>
+            <InputText id="Navn" class="form-control" @bind-Value="userProfile.Navn" />
+        </div>
+        <div class="form-group">
+            <label for="Adgangkode">Adgangkode:</label>
+            <InputText id="Adgangkode" class="form-control" @bind-Value="userProfile.Adgangskode" type="password" />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Log Ind</button>
+        </div>
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
+    </EditForm>
+</div>
+
+@code {
+    private UserProfile userProfile = new UserProfile();
+    private string errorMessage;
+
+    protected override void OnInitialized()
+    {
+        userProfile = new UserProfile
+            {
+                Navn = "",
+                Adgangskode = "",
+                Fødselsdag = DateTime.Now,
+                Køn = "Andet"
+            };
+    }
+
+    private async Task LogInd()
+    {
+        // Her vil du indsætte din logik til at validere brugeren mod backend
+        bool succes = userRepo.GetUser(userProfile.Navn, userProfile.Adgangskode);
+        if ((userProfile.Navn != "" && userProfile.Adgangskode != "") || succes) // Eksempel på validering
+        {
+            var brugerprofil = userRepo.GetUserProfile(userProfile.Navn, userProfile.Adgangskode);
+
+            NavigationManager.NavigateTo($"/Profil/{brugerprofil.Id}");
+        }
+        else
+        {
+            errorMessage = "Ugyldigt brugernavn eller adgangskode. Prøv igen.";
+        }
+    }
+
+   
+}

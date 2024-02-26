@@ -1,0 +1,82 @@
+﻿@page "/opret-bruger"
+@rendermode InteractiveServer
+@using System
+@using Microsoft.Data.SqlClient
+@using datingedit.Models
+@inject IConfiguration Configuration
+@using Microsoft.Extensions.Configuration
+
+<h3>Opret din bruger</h3>
+
+<EditForm Model="@UserProfile" FormName="ad" OnValidSubmit="@GemBruger">
+    <div class="form-group">
+        <label for="FirstName">Navn:</label>
+        <InputText id="FirstName" class="form-control" @bind-Value="UserProfile.Navn" />
+    </div>
+
+    <div class="form-group">
+        <label for="PostCode">Postnummer:</label>
+        <InputText id="PostCode" class="form-control" @bind-Value="UserProfile.Postnummer" />
+    </div>
+
+    <div class="form-group">
+        <label for="Birthdate">Fødselsdato:</label>
+        <InputDate id="Birthdate" class="form-control" @bind-Value="UserProfile.Fødselsdag" />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Adgangskode:</label>
+        <InputText id="Password" class="form-control" @bind-Value="UserProfile.Adgangskode" />
+    </div>
+
+    <div class="form-group">
+        <label for="Gender">Køn:</label>
+        <select class="form-control" @bind="UserProfile.Køn">
+            <option value="Mand">Mand</option>
+            <option value="Kvinde">Kvinde</option>
+            <option value="Andet">Andet</option>
+        </select>
+    </div>
+
+    <!-- Knap til at fuldføre oprettelsen -->
+    <button type="submit" class="btn btn-primary">Opret</button>
+</EditForm>
+
+<!-- Beskedsektion -->
+@if (visBesked)
+{
+    <div class="alert alert-success" role="alert">
+        Brugeren er oprettet!
+    </div>
+}
+
+@code {
+    private UserProfile UserProfile = new UserProfile();
+    private bool visBesked = false; // Boolsk variabel for at styre synligheden af beskeden
+
+    private void GemBruger()
+    {
+        string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            connection.Open();
+
+            using (SqlCommand command = new SqlCommand("INSERT INTO UserProfiles (Navn, Postnummer, Fødselsdag, Køn, Adgangskode) VALUES (@Navn, @Postnummer, @Fødselsdag, @Køn, @Adgangskode)", connection))
+            {
+                command.Parameters.AddWithValue("@Navn", UserProfile.Navn);
+                command.Parameters.AddWithValue("@Postnummer", UserProfile.Postnummer);
+                command.Parameters.AddWithValue("@Fødselsdag", UserProfile.Fødselsdag);
+
+                // Sæt standardværdi, hvis Køn er null eller tom
+                command.Parameters.AddWithValue("@Køn", string.IsNullOrWhiteSpace(UserProfile.Køn) ? "Mand" : UserProfile.Køn);
+
+                command.Parameters.AddWithValue("@Adgangskode", UserProfile.Adgangskode);
+
+                command.ExecuteNonQuery();
+            }
+
+            visBesked = true; // Vis beskeden efter oprettelse af brugeren
+        }
+    }
+}

@@ -1,0 +1,30 @@
+﻿@page "/createuser"
+@using Dating.Data.Crud.Interface
+@using Dating.Data.Models
+@inject Account account
+@inject ICrud Icrud
+
+<EditForm Model="@account" FormName="ad" OnValidSubmit="@CreateAccount">
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <InputText id="Name" class="form-control" @bind-Value="account.UserName" />
+    </div>
+
+    <div class="form-group">
+        <label for="Password">Password:</label>
+        <InputText id="Password" class="form-control" @bind-Value="account.Password" />
+    </div>
+
+
+  
+
+    <!-- Knap til at fuldføre oprettelsen -->
+    <button type="submit" class="btn btn-primary">Opret</button>
+</EditForm>
+
+@code {
+    private void CreateAccount()
+    {
+        Icrud.Create(account);
+    }
+}
