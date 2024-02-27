@@ -15,7 +15,7 @@ public partial class DatingContext : DbContext
     {
     }
 
-    public virtual DbSet<Account> Accounts { get; set; }
+    public virtual DbSet<AccountProfile> Accounts { get; set; }
 
     public virtual DbSet<City> Cities { get; set; }
 
@@ -33,15 +33,24 @@ public partial class DatingContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Account>(entity =>
+        // Definerer en entitet konfiguration for AccountProfile klassen.
+        modelBuilder.Entity<AccountProfile>(entity =>
         {
+            // Angiver at egenskaben 'Id' er primærnøglen for AccountProfile entiteten.
+            // 'HasName' metoden angiver navnet på den primære nøgle begrænsning i databasen.
             entity.HasKey(e => e.Id).HasName("PK__Account__3214EC07B1A3C8A8");
 
+            // Mapper AccountProfile klassen til en tabel med navnet 'Account' i databasen.
             entity.ToTable("Account");
 
+            // Opretter et unikt indeks for 'UserName' egenskaben for at sikre,
+            // at brugernavne er unikke i 'Account' tabellen.
             entity.HasIndex(e => e.UserName, "UQ__Account__C9F28456A16BBCA3").IsUnique();
 
+            // Definerer maksimal længde af 'Password' egenskaben til 50 tegn.
             entity.Property(e => e.Password).HasMaxLength(50);
+
+            // Definerer maksimal længde af 'UserName' egenskaben til 50 tegn.
             entity.Property(e => e.UserName).HasMaxLength(50);
         });
 

@@ -12,7 +12,7 @@ builder.Services.AddRazorComponents()
 //EntityFrameWork
 builder.Services.AddDbContext<DatingContext>();
 //Models
-builder.Services.AddScoped<Account>();
+builder.Services.AddScoped<AccountProfile>();
 //Crud
 builder.Services.AddScoped<ICrud, EFCRUD>();
 var app = builder.Build();

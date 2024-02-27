@@ -14,7 +14,7 @@ namespace Dating.Data.Crud
 
         }
 
-        public void Create(Account account)
+        public void Create(AccountProfile account)
         {
             _context.Add(account);
            _context.SaveChanges();

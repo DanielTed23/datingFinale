@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Dating.Data.Models;
 
-public partial class Account
+public partial class AccountProfile
 {
     public int Id { get; set; }
 

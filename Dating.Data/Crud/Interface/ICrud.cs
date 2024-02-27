@@ -4,7 +4,7 @@ namespace Dating.Data.Crud.Interface
 {
     public interface ICrud
     {
-        void Create(Account account);
+        void Create(AccountProfile account);
 
         void Delete(int id);
 

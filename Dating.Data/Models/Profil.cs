@@ -17,7 +17,7 @@ public partial class Profil
 
     public string? Gender { get; set; }
 
-    public virtual Account Account { get; set; } = null!;
+    public virtual AccountProfile Account { get; set; } = null!;
 
     public virtual City City { get; set; } = null!;
 

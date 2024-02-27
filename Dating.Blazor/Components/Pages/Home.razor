@@ -6,13 +6,15 @@
 
 <PageTitle>Login</PageTitle>
 
+<h3>Login </h3>
+
 <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
     <div class="form-group">
-        <label for="userName">Brugernavn:</label>
+        <label for="userName">UsernName:</label>
         <InputText id="userName" @bind-Value="loginModel.UserName" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="password">Adgangskode:</label>
+        <label for="password">Password:</label>
         <InputText id="password" @bind-Value="loginModel.Password" type="password" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Log ind</button>
@@ -21,11 +23,11 @@
 @if(loginFailed)
 {
     <div class="alert alert-danger" role="alert">
-        Login fejlede. Tjek brugernavn og adgangskode.
+        Login failed. Check UserName or Password.
     </div>
 }
 @code {
-    private Data.Models.Account loginModel = new Data.Models.Account(); // Antager at Account er din modelklasse
+    private Data.Models.AccountProfile loginModel = new Data.Models.AccountProfile(); // Antager at Account er din modelklasse
     private bool loginFailed = false;
 
     private async Task HandleLogin()
@@ -36,7 +38,7 @@
         if (user != null)
         {
             // Håndter succesfuldt login her
-            NavigationManager.NavigateTo("/hjem"); // Omdiriger til hjemmesiden eller en anden side efter login
+            NavigationManager.NavigateTo("/Account"); // Omdiriger til hjemmesiden eller en anden side efter login
         }
         else
         {

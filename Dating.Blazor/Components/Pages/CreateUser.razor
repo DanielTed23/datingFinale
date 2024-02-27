@@ -1,7 +1,7 @@
 ﻿@page "/createuser"
 @using Dating.Data.Crud.Interface
 @using Dating.Data.Models
-@inject Account account
+@inject AccountProfile account
 @inject ICrud Icrud
 
 <EditForm Model="@account" FormName="ad" OnValidSubmit="@CreateAccount">
