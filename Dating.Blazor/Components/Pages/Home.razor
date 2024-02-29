@@ -2,7 +2,9 @@
 @inject DatingContext DbContext
 @using Dating.Data.Models
 @inject NavigationManager NavigationManager
+@using Dating.Data.Services
 @using Microsoft.EntityFrameworkCore
+@inject SimpleAuthService SimpleAuthService
 
 <PageTitle>Login</PageTitle>
 
@@ -19,6 +21,7 @@
     </div>
     <button type="submit" class="btn btn-primary">Log ind</button>
 </EditForm>
+
 
 @if(loginFailed)
 {
@@ -38,6 +41,8 @@
         if (user != null)
         {
             // Håndter succesfuldt login her
+            SimpleAuthService.CurrentUser = user;
+            SimpleAuthService.IsLoggedIn = true;
             NavigationManager.NavigateTo("/Account"); // Omdiriger til hjemmesiden eller en anden side efter login
         }
         else

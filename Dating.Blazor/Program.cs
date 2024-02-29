@@ -2,6 +2,7 @@ using Dating.Blazor.Components;
 using Dating.Data.Crud;
 using Dating.Data.Crud.Interface;
 using Dating.Data.Models;
+using Dating.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,8 @@ builder.Services.AddRazorComponents()
 builder.Services.AddDbContext<DatingContext>();
 //Models
 builder.Services.AddScoped<AccountProfile>();
+//Services
+builder.Services.AddScoped<SimpleAuthService>();
 //Crud
 builder.Services.AddScoped<ICrud, EFCRUD>();
 var app = builder.Build();

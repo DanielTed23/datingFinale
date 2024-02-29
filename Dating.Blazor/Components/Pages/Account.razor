@@ -1,11 +1,14 @@
 ﻿@page "/Account"
 @inject Dating.Data.Models.DatingContext DbContext
 @inject Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider AuthenticationStateProvider
+@using Dating.Data.Services
 @using Microsoft.EntityFrameworkCore
+@rendermode InteractiveServer
+@inject SimpleAuthService SimpleAuthService
 
 <h3>Profilsite</h3>
 
-@if (accountProfile == null)
+@if (SimpleAuthService.CurrentUser == null)
 {
     <p>Profil fejl</p>
 }
@@ -13,26 +16,19 @@ else
 {
     <div>
         <h4>Brugerprofil</h4>
-        <p>ID: @accountProfile.Id</p>
-        <p>Brugernavn: @accountProfile.UserName</p>
+        <p>ID: @SimpleAuthService.CurrentUser.Id</p>
+        <p>Brugernavn: @SimpleAuthService.CurrentUser.UserName</p>
     </div>
 }
 
-@code {
-    private Dating.Data.Models.AccountProfile accountProfile;
+@code{
 
-    protected override async Task OnInitializedAsync()
-    {
-        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        var user = authState.User;
-
-        if (user.Identity.IsAuthenticated)
-        {
-            var userName = user.Identity.Name;
-            accountProfile = await DbContext.Accounts
-                                     .Where(a => a.UserName == userName)
-                                     .Select(a => new Dating.Data.Models.AccountProfile { Id = a.Id, UserName = a.UserName })
-                                     .FirstOrDefaultAsync();
-        }
-    }
 }
+
+
+
+
+
+
+
+

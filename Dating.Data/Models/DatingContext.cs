@@ -53,55 +53,85 @@ public partial class DatingContext : DbContext
             // Definerer maksimal længde af 'UserName' egenskaben til 50 tegn.
             entity.Property(e => e.UserName).HasMaxLength(50);
         });
-
+        // Konfigurerer 'City' entiteten i modellen.
         modelBuilder.Entity<City>(entity =>
         {
+            // Angiver at 'Id' egenskaben er primærnøglen for 'City' entiteten.
+            // 'HasName' metoden angiver navnet på den primære nøglebegrænsning i databasen.
             entity.HasKey(e => e.Id).HasName("PK__City__3214EC077D787EC2");
 
+            // Mapper 'City' klassen til en tabel med navnet 'City' i databasen.
             entity.ToTable("City");
 
+            // Angiver at 'Id' egenskaben ikke automatisk genereres af databasen.
+            // Dette betyder, at du skal angive 'Id' værdien manuelt, når du opretter en ny 'City'.
             entity.Property(e => e.Id).ValueGeneratedNever();
+
+            // Definerer maksimal længde af 'CityName' egenskaben til 50 tegn.
             entity.Property(e => e.CityName).HasMaxLength(50);
         });
 
+        // Konfigurerer 'Like' entiteten i modellen.
         modelBuilder.Entity<Like>(entity =>
         {
+            // Angiver at 'Id' egenskaben er primærnøglen for 'Like' entiteten.
+            // 'HasName' metoden angiver navnet på den primære nøglebegrænsning i databasen.
             entity.HasKey(e => e.Id).HasName("PK__Like__3214EC07CB5B5426");
 
+            // Mapper 'Like' klassen til en tabel med navnet 'Like' i databasen.
             entity.ToTable("Like");
 
-            entity.HasOne(d => d.FromProfil).WithMany(p => p.LikeFromProfils)
-                .HasForeignKey(d => d.FromProfilId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Like_FromProfil");
+            // Konfigurerer relationen mellem 'Like' og 'Profil' entiteter.
+            // Angiver at hver 'Like' entitet har én 'FromProfil' (den profil, der giver et 'like').
+            entity.HasOne(d => d.FromProfil)
+                .WithMany(p => p.LikeFromProfils) // En 'Profil' kan have mange 'Likes' fra.
+                .HasForeignKey(d => d.FromProfilId) // Angiver den fremmednøgle, der forbinder til 'FromProfil'.
+                .OnDelete(DeleteBehavior.ClientSetNull) // Angiver, at hvis 'Profil' slettes, sættes fremmednøglen i 'Like' til null.
+                .HasConstraintName("FK_Like_FromProfil"); // Angiver navnet på fremmednøglebegrænsningen.
 
-            entity.HasOne(d => d.ToProfil).WithMany(p => p.LikeToProfils)
-                .HasForeignKey(d => d.ToProfilId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Like_ToProfil");
+            // Lignende konfiguration for 'ToProfil' (den profil, der modtager et 'like').
+            entity.HasOne(d => d.ToProfil)
+                .WithMany(p => p.LikeToProfils) // En 'Profil' kan have mange 'Likes' til.
+                .HasForeignKey(d => d.ToProfilId) // Angiver den fremmednøgle, der forbinder til 'ToProfil'.
+                .OnDelete(DeleteBehavior.ClientSetNull) // Angiver, at hvis 'Profil' slettes, sættes fremmednøglen i 'Like' til null.
+                .HasConstraintName("FK_Like_ToProfil"); // Angiver navnet på fremmednøglebegrænsningen.
         });
 
+
+        // Konfigurerer 'Message' entiteten i modellen.
         modelBuilder.Entity<Message>(entity =>
         {
+            // Angiver at 'Id' egenskaben er primærnøglen for 'Message' entiteten.
+            // 'HasName' metoden angiver navnet på den primære nøglebegrænsning i databasen.
             entity.HasKey(e => e.Id).HasName("PK__Message__3214EC0752C66F83");
 
+            // Mapper 'Message' klassen til en tabel med navnet 'Message' i databasen.
             entity.ToTable("Message");
 
+            // Definerer egenskaben 'MessageText' med en maksimal længde på 250 tegn.
             entity.Property(e => e.MessageText).HasMaxLength(250);
+
+            // Definerer egenskaben 'SentDate' og angiver standardværdien til det aktuelle tidspunkt
+            // ved brug af SQL funktionen 'getdate()'. Angiver også typen til 'datetime'.
             entity.Property(e => e.SentDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime");
+                 .HasDefaultValueSql("(getdate())")
+                 .HasColumnType("datetime");
 
+            // Konfigurerer en en-til-mange relation mellem 'Message' og 'Profil' entiteter,
+            // hvor 'FromProfil' angiver, hvem der sender beskeden. Hver 'Profil' kan have sendt mange 'Messages'.
             entity.HasOne(d => d.FromProfil).WithMany(p => p.MessageFromProfils)
-                .HasForeignKey(d => d.FromProfilId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Message_FromProfil");
+                 .HasForeignKey(d => d.FromProfilId) // Angiver den fremmednøgle, der forbinder til 'FromProfil'.
+                 .OnDelete(DeleteBehavior.ClientSetNull) // Hvis 'Profil' slettes, sættes fremmednøglen i 'Message' til null.
+                 .HasConstraintName("FK_Message_FromProfil"); // Angiver navnet på fremmednøglebegrænsningen.
 
+            // Konfigurerer en en-til-mange relation mellem 'Message' og 'Profil' for 'ToProfil',
+            // hvilket angiver, hvem der modtager beskeden. Hver 'Profil' kan have modtaget mange 'Messages'.
             entity.HasOne(d => d.ToProfil).WithMany(p => p.MessageToProfils)
-                .HasForeignKey(d => d.ToProfilId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Message_ToProfil");
+                 .HasForeignKey(d => d.ToProfilId) // Angiver den fremmednøgle, der forbinder til 'ToProfil'.
+                 .OnDelete(DeleteBehavior.ClientSetNull) // Hvis 'Profil' slettes, sættes fremmednøglen i 'Message' til null.
+                 .HasConstraintName("FK_Message_ToProfil"); // Angiver navnet på fremmednøglebegrænsningen.
         });
+                                
 
         modelBuilder.Entity<Profil>(entity =>
         {
