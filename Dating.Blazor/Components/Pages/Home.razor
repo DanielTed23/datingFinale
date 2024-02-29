@@ -10,6 +10,7 @@
 
 <h3>Login </h3>
 
+
 <EditForm Model="@loginModel" OnValidSubmit="@HandleLogin">
     <div class="form-group">
         <label for="userName">UsernName:</label>
@@ -30,23 +31,31 @@
     </div>
 }
 @code {
-    private Data.Models.AccountProfile loginModel = new Data.Models.AccountProfile(); // Antager at Account er din modelklasse
+        // Definerer en instans af AccountProfile-modellen til at opbevare loginoplysninger.
+private Data.Models.AccountProfile loginModel = new Data.Models.AccountProfile();
+
+    // En boolsk variabel til at spore, om loginforsøget mislykkedes.
     private bool loginFailed = false;
 
+    // Asynkron metode til at håndtere login-logik.
     private async Task HandleLogin()
     {
+        // Forsøger at finde en bruger i databasen, der matcher både brugernavn og adgangskode.
         var user = await DbContext.Accounts
-            .FirstOrDefaultAsync(u => u.UserName == loginModel.UserName && u.Password == loginModel.Password); // Husk at hashe og sammenligne adgangskoder sikkert i en rigtig applikation
+            .FirstOrDefaultAsync(u => u.UserName == loginModel.UserName && u.Password == loginModel.Password);
 
-        if (user != null)
+        if (user != null) // Tjekker, om der blev fundet en matchende bruger.
         {
-            // Håndter succesfuldt login her
+            // Håndterer succesfuldt login ved at sætte den aktuelle bruger og loginstatus.
             SimpleAuthService.CurrentUser = user;
             SimpleAuthService.IsLoggedIn = true;
-            NavigationManager.NavigateTo("/Account"); // Omdiriger til hjemmesiden eller en anden side efter login
+
+            // Omdirigerer brugeren til en anden side efter et succesfuldt login.
+            NavigationManager.NavigateTo("/Account");
         }
-        else
+        else // Hvis ingen bruger matcher de indtastede oplysninger.
         {
+            // Sætter loginFailed til true for at indikere, at loginforsøget mislykkedes.
             loginFailed = true;
         }
     }

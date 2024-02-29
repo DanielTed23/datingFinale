@@ -5,30 +5,31 @@
 @using Microsoft.EntityFrameworkCore
 @rendermode InteractiveServer
 @inject SimpleAuthService SimpleAuthService
+@inject NavigationManager NavigationManager
 
-<h3>Profilsite</h3>
 
-@if (SimpleAuthService.CurrentUser == null)
-{
-    <p>Profil fejl</p>
-}
-else
+@if (SimpleAuthService.CurrentUser != null)
 {
     <div>
         <h4>Brugerprofil</h4>
         <p>ID: @SimpleAuthService.CurrentUser.Id</p>
         <p>Brugernavn: @SimpleAuthService.CurrentUser.UserName</p>
+        <button class="btn btn-danger" @onclick="Logout">Log ud</button> 
     </div>
 }
-
-@code{
-
+else
+{
+    <p>Profil fejl</p>
 }
 
-
-
-
-
-
-
-
+@code {
+    // Metoden der kaldes, når "Log ud" knappen klikkes
+    private void Logout()
+    {
+        SimpleAuthService.Logout();
+        NavigationManager.NavigateTo("/");
+        
+                                    // Kalder Logout metoden på SimpleAuthService
+                                   
+    }
+}

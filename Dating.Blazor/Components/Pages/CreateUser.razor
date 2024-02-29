@@ -29,16 +29,18 @@
 @if (!string.IsNullOrWhiteSpace(userCreationMessage))
 {
     <div class="alert alert-success" role="alert">
-        @userCreationMessage
+        @userCreationMessage // Viser beskeden om brugeroprettelse.
     </div>
 }
 
 @code {
+    // Deklarerer en variabel til at holde beskeden om brugeroprettelse.
     private string userCreationMessage;
 
+    // Metode til at oprette en ny brugeraccount.
     private void CreateAccount()
     {
-        Icrud.Create(account);
-        userCreationMessage = "Brugeren er oprettet";
+        Icrud.Create(account); // Kalder en metode til at oprette brugeren i databasen.
+        userCreationMessage = "Brugeren er oprettet"; // Sætter beskeden om succesfuld brugeroprettelse.
     }
 }
