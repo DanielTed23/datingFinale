@@ -10,6 +10,8 @@ namespace Dating.Data.Crud.Interface
         // der skal oprettes. Implementeringen af denne metode vil typisk tilføje den givne 'account' til databasen.
         void Create(AccountProfile account);
 
+        void 
+
         void Delete(int id);
 
         void ReadAll();

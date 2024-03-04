@@ -11,10 +11,12 @@
 @if (SimpleAuthService.CurrentUser != null)
 {
     <div>
-        <h4>Brugerprofil</h4>
+        <h4>Userprofil</h4>
         <p>ID: @SimpleAuthService.CurrentUser.Id</p>
-        <p>Brugernavn: @SimpleAuthService.CurrentUser.UserName</p>
-        <button class="btn btn-danger" @onclick="Logout">Log ud</button> 
+        <p>Username: @SimpleAuthService.CurrentUser.UserName</p>
+        <button class="btn btn-danger" @onclick="Logout">Log ud</button>
+
+        <button class="btn btn-primary" @onclick="indtast">Indtast Oplysninger</button>
     </div>
 }
 else
@@ -23,13 +25,20 @@ else
 }
 
 @code {
+
+    private void indtast()
+    {
+        NavigationManager.NavigateTo("/ProfilDetail");
+        
+    }
+
     // Metoden der kaldes, når "Log ud" knappen klikkes
     private void Logout()
     {
         SimpleAuthService.Logout();
         NavigationManager.NavigateTo("/");
         
-                                    // Kalder Logout metoden på SimpleAuthService
+                                    // Kalder Logout metoden class SimpleAuthService
                                    
     }
 }
