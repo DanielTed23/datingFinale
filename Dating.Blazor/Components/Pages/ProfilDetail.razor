@@ -1,26 +1,31 @@
 ﻿@page "/ProfilDetail"
+@inject ProfilDetail profildetail
+@inject ICrud Icrud
+@using Dating.Data.Crud.Interface
+
 
 
 <h3>ProfilDetail</h3>
 
-
-<EditForm Model="@ProfilDetail" FormName="ad" OnValidSubmit="@CreateAccount">
+@* 
+<EditForm Model="@profildetail" FormName="ad" OnValidSubmit="@CreateProfilDetail">
     <div class="form-group">
-        <label for="Name">Name:</label>
-        <InputText id="Name" class="form-control" @bind-Value="" />
+        <label for="Height">Height:</label>
+        <InputText id="Height" class="form-control" @bind-Value="" />
     </div>
 
     <div class="form-group">
-        <label for="Password">Password:</label>
-        <InputText id="Password" class="form-control" @bind-Value="" />
+        <label for="Weight">Weight:</label>
+        <InputText id="Weight" class="form-control" @bind-Value="" />
     </div>
     <!-- Knap til at fuldføre oprettelsen -->
     <button type="submit" class="btn btn-primary">Opret</button>
 </EditForm>
-
+ *@
 
 @code {
 
+   // public void Create
 
 
 }
