@@ -1,14 +1,14 @@
 ﻿@page "/ProfilDetail"
-@inject ProfilDetail profildetail
+@inject ProfilDetail profilDetail
 @inject ICrud Icrud
 @using Dating.Data.Crud.Interface
-
+@using Dating.Data.Models
 
 
 <h3>ProfilDetail</h3>
 
 @* 
-<EditForm Model="@profildetail" FormName="ad" OnValidSubmit="@CreateProfilDetail">
+<EditForm Model="@profilDetail" FormName="ad" OnValidSubmit="@CreateProfileDetail">
     <div class="form-group">
         <label for="Height">Height:</label>
         <InputText id="Height" class="form-control" @bind-Value="" />
@@ -20,12 +20,15 @@
     </div>
     <!-- Knap til at fuldføre oprettelsen -->
     <button type="submit" class="btn btn-primary">Opret</button>
-</EditForm>
- *@
+</EditForm> *@
+
 
 @code {
 
-   // public void Create
+    public void CreateProfileDetail()
+    {
+        //Icrud.CreatePD(profilDetail); // Kalder en metode til at oprette brugeren i databasen.
+    }
 
 
 }

@@ -14,13 +14,19 @@ namespace Dating.Data.Crud
 
         }
 
-        public void Create(AccountProfile account)
+        public void CreateAP(AccountProfile account)
         {
             // Tilføjer den nye 'account' entitet til DbContext, hvilket forbereder den til at blive gemt i databasen.
             _context.Add(account);
 
             // Gemmer ændringerne i databasen, inklusiv den nye 'account' entitet,
             // hvilket effektivt opretter den nye konto i databasen.
+            _context.SaveChanges();
+        }
+
+        public void CreatePD(ProfilDetail profilDetail)
+        {
+            _context.Add(profilDetail);
             _context.SaveChanges();
         }
 
