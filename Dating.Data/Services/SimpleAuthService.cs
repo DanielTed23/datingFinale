@@ -17,6 +17,8 @@ namespace Dating.Data.Services
         // En egenskab til at holde information om den nuværende bruger.
         // Typen 'AccountProfile' formodes at være en brugerdefineret klasse, der indeholder brugerens detaljer.
         public AccountProfile CurrentUser { get; set; }
+
+        public ProfilDetail CurrentProfile { get; set; }                    
         public void Logout()
         {
             // Logik for at logge brugeren ud

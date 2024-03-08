@@ -3,10 +3,17 @@
 @inject ICrud Icrud
 @using Dating.Data.Crud.Interface
 @using Dating.Data.Models
-
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
 
 <h3>ProfilDetail</h3>
 
+<div>
+
+    <button class="btn btn-danger" @onclick="Back">Back</button>
+
+</div>
+ 
 @* 
 <EditForm Model="@profilDetail" FormName="ad" OnValidSubmit="@CreateProfileDetail">
     <div class="form-group">
@@ -20,10 +27,9 @@
     </div>
     <!-- Knap til at fuldføre oprettelsen -->
     <button type="submit" class="btn btn-primary">Opret</button>
-</EditForm> *@
-
-
+</EditForm>  *@
 @code {
+    private void Back() => NavigationManager.NavigateTo("/Account");
 
     public void CreateProfileDetail()
     {

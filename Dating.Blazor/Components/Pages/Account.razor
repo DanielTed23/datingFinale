@@ -16,8 +16,11 @@
         <p>Username: @SimpleAuthService.CurrentUser.UserName</p>
         <button class="btn btn-danger" @onclick="Logout">Log ud</button>
 
-        <button class="btn btn-primary" @onclick="indtast">Indtast ProfilDetails</button>
+        <button class="btn btn-primary" @onclick="indtastPD">Indtast ProfilDetails</button>
+
+        <button class="btn btn-primary" @onclick="indtastP">Indtast Profil</button>
     </div>
+    
 }
 else
 {
@@ -26,7 +29,12 @@ else
 
 @code {
 
-    private void indtast()
+    private void indtastP()
+    {
+        NavigationManager.NavigateTo("/Profil");
+    }
+
+    private void indtastPD()
     {
         NavigationManager.NavigateTo("/ProfilDetail");
         

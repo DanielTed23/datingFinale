@@ -12,7 +12,8 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 //EntityFrameWork
 builder.Services.AddDbContext<DatingContext>();
-//Models
+//Models    
+builder.Services.AddScoped<ProfilDetail>();
 builder.Services.AddScoped<AccountProfile>();
 //Services
 builder.Services.AddScoped<SimpleAuthService>();

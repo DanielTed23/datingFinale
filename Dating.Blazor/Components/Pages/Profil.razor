@@ -1,0 +1,17 @@
+﻿@page "/Profil"
+@inject NavigationManager NavigationManager
+
+<h3>Profil</h3>
+
+<div>
+            <button class="btn btn-danger" @onclick="Back">Back</button>
+
+</div>
+
+@code {
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/Account");
+    }
+}
